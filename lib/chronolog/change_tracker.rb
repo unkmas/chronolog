@@ -33,7 +33,7 @@ module Chronolog
     private
 
     def target_identifier
-      "#{target} (#{target.class.to_s.titleize})"
+      "#{target.class.to_s.titleize} ##{target.id}"
     end
   end
 end

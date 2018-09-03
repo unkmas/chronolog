@@ -26,7 +26,7 @@ module Chronolog
           end
 
           def store_identifier
-            @identifier = "#{resource} (#{resource.class.to_s.titleize})"
+            @identifier = "#{resource.id} (#{resource.class.to_s.titleize})"
           end
 
           def create_changeset
