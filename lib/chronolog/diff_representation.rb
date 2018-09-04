@@ -77,7 +77,7 @@ module Chronolog
       dependency = dependencies.find { |association| association.foreign_key.to_s == attr.to_s }
 
       if dependency.present?
-        { dependency.name.to_s => record.send(dependency.name).id }
+        { dependency.name.to_s => record.send(dependency.name).try(:id) }
       elsif attr =~ /(.*)_ids$/ && record.respond_to?($1.pluralize)
         { $1.pluralize => record.send($1.pluralize).map(&:to_s) }
       elsif [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
