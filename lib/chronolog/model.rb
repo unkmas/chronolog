@@ -2,11 +2,17 @@ module Chronolog
   module Model
     extend ActiveSupport::Concern
 
-    ACTIONS = %w(
-      create
-      update
-      destroy
-    )
+    def self.configure
+      yield self
+    end
+
+    def self.actions
+      @actions ||= %w(create update destroy)
+    end
+
+    def self.actions=(value)
+      @actions = value
+    end
 
     included do
       belongs_to :changeable, polymorphic: true
@@ -14,7 +20,7 @@ module Chronolog
 
       validates :changeset, :identifier, presence: true
 
-      validates :action, inclusion: { in: Chronolog::Model::ACTIONS }
+      validates :action, inclusion: { in: Chronolog::Model.actions }
 
       scope :recent, -> { order(created_at: :desc) }
       scope :reverse_chron, -> { order(created_at: :desc) }
