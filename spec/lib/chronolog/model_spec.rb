@@ -7,7 +7,7 @@ RSpec.describe Chronolog::Changeset, type: :model do
   it { should validate_presence_of(:changeset) }
   it { should validate_presence_of(:identifier) }
 
-  it { should validate_inclusion_of(:action).in_array(Chronolog::Model::ACTIONS) }
+  it { should validate_inclusion_of(:action).in_array(Chronolog::Model.actions) }
 
   describe ".recent" do
     let!(:oldest) { create(:changeset, created_at: 1.week.ago) }
