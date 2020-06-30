@@ -1,2 +1,4 @@
+# frozen_string_literal: true
+
 # Adds `track_changes` to ActiveAdmin DSL
-ActiveAdmin::ResourceDSL.send(:include, Chronolog::ActiveAdmin::TrackChanges)
+ActiveAdmin::ResourceDSL.include Chronolog::ActiveAdmin::TrackChanges

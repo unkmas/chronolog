@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :changeset, class: Chronolog::Changeset do
     admin_user
     changeable { create :post }
-    changeset  { { 'first_name' => ['Fred', 'Bo'] } }
+    changeset  { { 'first_name' => %w[Fred Bo] } }
     action     { 'update' }
     identifier { 'Such Post (Post)' }
 

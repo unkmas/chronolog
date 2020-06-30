@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateChronologChangesets < ActiveRecord::Migration[4.2]
   def up
     create_table :chronolog_changesets do |t|
@@ -14,7 +16,7 @@ class CreateChronologChangesets < ActiveRecord::Migration[4.2]
     end
 
     add_index :chronolog_changesets, :admin_user_id
-    add_index :chronolog_changesets, [:changeable_id, :changeable_type], name: :index_changesets_on_changeable_id_and_type
+    add_index :chronolog_changesets, %i[changeable_id changeable_type], name: :index_changesets_on_changeable_id_and_type
   end
 
   def down

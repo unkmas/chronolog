@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Chronolog
   module ActiveAdmin
     module TrackChanges
@@ -5,9 +7,9 @@ module Chronolog
 
       def track_changes
         controller do
-          before_action :store_old_state,  only: [:update, :destroy]
+          before_action :store_old_state,  only: %i[update destroy]
           before_action :store_identifier, only: [:destroy]
-          after_action  :create_changeset, only: [:create, :update, :destroy]
+          after_action  :create_changeset, only: %i[create update destroy]
 
           private
 
@@ -33,14 +35,14 @@ module Chronolog
             if resource.errors.none?
               changeset_attrs = {
                 admin_user: current_admin_user,
-                action:     params[:action],
+                action: params[:action],
                 identifier: @identifier,
-                old_state:  @old_state,
+                old_state: @old_state
               }
 
-              unless params[:action] == "destroy"
+              unless params[:action] == 'destroy'
                 changeset_attrs.merge!(
-                  target:    resource,
+                  target: resource,
                   new_state: resource_attributes
                 )
               end
@@ -53,7 +55,6 @@ module Chronolog
 
       def track_batch_changes
         controller do
-
           before_action :store_old_states,  only: [:batch_action]
           before_action :store_identifiers, only: [:batch_action]
           after_action  :create_changesets, only: [:batch_action]
@@ -82,9 +83,9 @@ module Chronolog
             params[:collection_selection].each do
               changeset_attrs = {
                 admin_user: current_admin_user,
-                action:     params[:batch_action],
+                action: params[:batch_action],
                 identifier: @identifiers.pop,
-                old_state:  @old_states.pop,
+                old_state: @old_states.pop
               }
 
               Chronolog::ChangeTracker.new(changeset_attrs).changeset

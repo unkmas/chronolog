@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 if ENV['COV']
   require 'simplecov'
 
   SimpleCov.start
 end
 
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'chronolog'
 require 'factory_bot_rails'
@@ -27,11 +29,11 @@ Devise.setup do |config|
   config.sign_out_via                       = :delete
 end
 
-%w(
+%w[
   /support/**/*.rb
   /factories/**/*.rb
-).each do |file_set|
-  Dir[File.dirname(__FILE__) + file_set].each { |file| require file }
+].each do |file_set|
+  Dir[File.dirname(__FILE__) + file_set].sort.each { |file| require file }
 end
 
 Chronolog::Test::Database.build
@@ -63,7 +65,7 @@ end
 # Stub rails application when necessary.
 unless Rails.application.present?
   Rails.application = OpenStruct.new(
-    config:      OpenStruct.new(eager_load: false),
+    config: OpenStruct.new(eager_load: false),
     eager_load!: true
   )
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Chronolog::ChangeTracker do
@@ -6,43 +8,43 @@ RSpec.describe Chronolog::ChangeTracker do
 
   let(:params) do
     {
-      action:     'create',
+      action: 'create',
       admin_user: admin,
-      old_state:  {},
-      new_state:  { 'body' => 'SHABOOSH' },
-      target:     post
+      old_state: {},
+      new_state: { 'body' => 'SHABOOSH' },
+      target: post
     }
   end
 
-  describe "#identifier" do
-    context "when target exists" do
+  describe '#identifier' do
+    context 'when target exists' do
       subject { described_class.new(params) }
 
       it { expect(subject.identifier).to eq "Post ##{post.id}" }
     end
 
-    context "when identifier is specified" do
+    context 'when identifier is specified' do
       subject { described_class.new(params.merge(identifier: 'Blargh')) }
 
       it { expect(subject.identifier).to eq 'Blargh' }
     end
   end
 
-  describe "#changeset" do
+  describe '#changeset' do
     subject { described_class.new(params) }
 
-    context "given valid attributes" do
-      it "creates a changeset" do
+    context 'given valid attributes' do
+      it 'creates a changeset' do
         expect { subject.changeset }.to change { Chronolog::Changeset.count }.by 1
       end
     end
 
-    context "given invalid attributes" do
+    context 'given invalid attributes' do
       before do
         params[:action] = 'craziness'
       end
 
-      it "raises an error" do
+      it 'raises an error' do
         expect { subject.changeset }.to raise_error ActiveRecord::RecordInvalid
       end
     end

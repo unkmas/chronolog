@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Chronolog
   module ActiveAdmin
     autoload :Controller,   'chronolog/active_admin/controller'

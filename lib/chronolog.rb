@@ -1,6 +1,8 @@
-require "rails"
-require "chronolog/version"
-require "generators/chronolog/install_generator"
+# frozen_string_literal: true
+
+require 'rails'
+require 'chronolog/version'
+require 'generators/chronolog/install_generator'
 
 module Chronolog
   autoload :ActiveAdmin,        'chronolog/active_admin'
