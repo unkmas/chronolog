@@ -82,8 +82,8 @@ module Chronolog
         { dependency.name.to_s => record.send(dependency.name).try(:id) }
       elsif attr =~ /(.*)_ids$/ && record.respond_to?(Regexp.last_match(1).pluralize)
         { Regexp.last_match(1).pluralize => record.send(Regexp.last_match(1).pluralize).map(&:to_s) }
-      elsif [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
-        { attr => value.strftime('%A %B %e, %Y') }
+      elsif attr =~ /(.*)_date$/ && DateTime.parse(value)
+        { attr => DateTime.parse(value).strftime('%A %B %e, %Y') }
       else
         { attr => value }
       end

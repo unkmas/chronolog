@@ -19,7 +19,7 @@ RSpec.describe Chronolog::InstallGenerator, type: :generator do
   end
 
   it 'generates an initializer' do
-    assert_file 'config/initializers/chronolog.rb', /ActiveAdmin::ResourceDSL\.send\(:include, Chronolog::ActiveAdmin::TrackChanges\)/
+    assert_file 'config/initializers/chronolog.rb', /# frozen_string_literal: true\n\n# Adds `track_changes` to ActiveAdmin DSL\nActiveAdmin::ResourceDSL\.include Chronolog::ActiveAdmin::TrackChanges/
   end
 
   it 'generates the ActiveAdmin resource file for Chronolog::Changeset' do
