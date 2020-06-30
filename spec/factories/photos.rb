@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :photo do
     sequence(:url) { |i| "https://www.test-#{i}.com" }
   end

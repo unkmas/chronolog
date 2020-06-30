@@ -1,21 +1,21 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :changeset, class: Chronolog::Changeset do
     admin_user
     changeable { create :post }
     changeset  { { 'first_name' => ['Fred', 'Bo'] } }
-    action     'update'
-    identifier 'Such Post (Post)'
+    action     { 'update' }
+    identifier { 'Such Post (Post)' }
 
     trait :create do
-      action 'create'
+      action { 'create' }
     end
 
     trait :update do
-      action 'update'
+      action { 'update' }
     end
 
     trait :delete do
-      action 'delete'
+      action { 'delete' }
     end
   end
 end

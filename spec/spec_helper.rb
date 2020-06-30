@@ -7,7 +7,7 @@ end
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'chronolog'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'shoulda/matchers'
 require 'database_cleaner'
 require 'generator_spec'
@@ -37,7 +37,7 @@ end
 Chronolog::Test::Database.build
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

@@ -1,6 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tag do
     post
-    value 'Hot Dang'
+    value { 'Hot Dang' }
   end
 end
