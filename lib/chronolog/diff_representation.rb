@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Chronolog
   class DiffRepresentation
-    DEFAULT_IGNORED = %w(
+    DEFAULT_IGNORED = %w[
       id
       created_at
       updated_at
-    )
+    ].freeze
 
     attr_reader :record,
                 :associations,
@@ -20,9 +22,9 @@ module Chronolog
 
     def attributes
       @attributes ||= record_attributes
-        .merge(attributes_for_associations)
-        .merge(attributes_for_methods)
-        .delete_if { |_, value| value.blank? || value == "[]" }
+                      .merge(attributes_for_associations)
+                      .merge(attributes_for_methods)
+                      .delete_if { |_, value| value.blank? || value == '[]' }
     end
 
     private
@@ -38,29 +40,29 @@ module Chronolog
     end
 
     def base_attributes
-      @base_attributes ||= record.as_json.delete_if do |attr, value|
+      @base_attributes ||= record.as_json.delete_if do |attr, _value|
         ignored_attrs.include?(attr)
       end
     end
 
     def record_attributes
-      base_attributes.reduce(Hash.new) do |output, (attr, value)|
+      base_attributes.reduce({}) do |output, (attr, value)|
         output.merge normalize_attribute(attr, value)
       end
     end
 
     def attributes_for_associations
-      associations.reduce(Hash.new) do |output, association|
+      associations.reduce({}) do |output, association|
         associated = record.send(association.name).order(:id)
 
         if associated.any?
-          output.merge(association.name.to_s => associated.map { |item|
+          output.merge(association.name.to_s => associated.map do |item|
             if item.respond_to?(:diff_attributes)
               item.diff_attributes
             else
               self.class.new(item).attributes
             end
-          })
+          end)
         else
           output
         end
@@ -68,7 +70,7 @@ module Chronolog
     end
 
     def attributes_for_methods
-      methods.reduce(Hash.new) do |output, method|
+      methods.reduce({}) do |output, method|
         output.merge normalize_attribute(method.to_s, @record.send(method))
       end
     end
@@ -78,10 +80,10 @@ module Chronolog
 
       if dependency.present?
         { dependency.name.to_s => record.send(dependency.name).try(:id) }
-      elsif attr =~ /(.*)_ids$/ && record.respond_to?($1.pluralize)
-        { $1.pluralize => record.send($1.pluralize).map(&:to_s) }
-      elsif [Date, Time, ActiveSupport::TimeWithZone].include?(value.class)
-        { attr => value.strftime('%A %B %e, %Y') }
+      elsif attr =~ /(.*)_ids$/ && record.respond_to?(Regexp.last_match(1).pluralize)
+        { Regexp.last_match(1).pluralize => record.send(Regexp.last_match(1).pluralize).map(&:to_s) }
+      elsif attr =~ /(.*)_date$/ && DateTime.parse(value)
+        { attr => DateTime.parse(value).strftime('%A %B %e, %Y') }
       else
         { attr => value }
       end

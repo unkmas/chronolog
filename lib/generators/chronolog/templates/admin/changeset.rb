@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Chronolog::Changeset, as: 'Changeset' do
   config.sort_order = 'created_at_desc'
 
@@ -39,9 +41,7 @@ ActiveAdmin.register Chronolog::Changeset, as: 'Changeset' do
   csv do
     column :id
 
-    column :record_changed do |changeset|
-      changeset.identifier
-    end
+    column :record_changed, &:identifier
 
     column :action do |changeset|
       changeset.action.capitalize

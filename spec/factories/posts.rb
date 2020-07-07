@@ -1,8 +1,10 @@
-FactoryGirl.define do
+# frozen_string_literal: true
+
+FactoryBot.define do
   factory :post do
-    title          'Such Post'
-    body           'Oh wow such post body.'
+    title          { 'Such Post' }
+    body           { 'Oh wow such post body.' }
     author         { create :user }
-    published_date 1.week.ago
+    published_date { 1.week.ago }
   end
 end

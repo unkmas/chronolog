@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Chronolog
   module Test
     class Database < ActiveRecord::Migration[4.2]
       def self.build
         ActiveRecord::Base.establish_connection(
-          adapter:  'sqlite3',
+          adapter: 'sqlite3',
           database: ':memory:'
         )
 
@@ -16,8 +18,8 @@ module Chronolog
 
       def change
         create_table :admin_users do |t|
-          t.string :email,              null: false, default: ""
-          t.string :encrypted_password, null: false, default: ""
+          t.string :email,              null: false, default: ''
+          t.string :encrypted_password, null: false, default: ''
         end
 
         add_index :admin_users, :email, unique: true
@@ -36,7 +38,7 @@ module Chronolog
         end
 
         add_index :chronolog_changesets, :admin_user_id
-        add_index :chronolog_changesets, [:changeable_id, :changeable_type], name: :index_changesets_on_changeable_id_and_type
+        add_index :chronolog_changesets, %i[changeable_id changeable_type], name: :index_changesets_on_changeable_id_and_type
 
         create_table :organizations do |t|
           t.string :name, null: false, index: true
@@ -57,8 +59,8 @@ module Chronolog
           t.string  :resource_type, null: false
         end
 
-        add_index :photo_attachments, [:resource_id, :resource_type]
-        add_index :photo_attachments, [:resource_id, :resource_type, :photo_id], unique: true, name: :index_photo_attachments_on_resource_and_photo
+        add_index :photo_attachments, %i[resource_id resource_type]
+        add_index :photo_attachments, %i[resource_id resource_type photo_id], unique: true, name: :index_photo_attachments_on_resource_and_photo
 
         create_table :photos do |t|
           t.string :url, null: false
@@ -74,7 +76,7 @@ module Chronolog
         end
 
         add_index :tags, :post_id
-        add_index :tags, [:post_id, :value], unique: true
+        add_index :tags, %i[post_id value], unique: true
 
         create_table :posts do |t|
           t.string  :title,   null: false

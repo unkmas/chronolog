@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Chronolog
   module Model
     extend ActiveSupport::Concern
@@ -7,7 +9,7 @@ module Chronolog
     end
 
     def self.actions
-      @actions ||= %w(create update destroy)
+      @actions ||= %w[create update destroy]
     end
 
     def self.actions=(value)

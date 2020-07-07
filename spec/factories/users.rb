@@ -1,6 +1,8 @@
-FactoryGirl.define do
+# frozen_string_literal: true
+
+FactoryBot.define do
   factory :user do
-    name 'Randy Savage'
+    name { 'Randy Savage' }
 
     organization
   end

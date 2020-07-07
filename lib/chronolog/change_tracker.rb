@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Chronolog
   class ChangeTracker
     attr_reader :action,
@@ -21,13 +23,15 @@ module Chronolog
     end
 
     def changeset
-      @changeset ||= Changeset.create!(
-        action:     action,
-        admin_user: admin_user,
-        changeable: target,
-        changeset:  changes,
-        identifier: identifier
-      ) unless changes.empty?
+      unless changes.empty?
+        @changeset ||= Changeset.create!(
+          action: action,
+          admin_user: admin_user,
+          changeable: target,
+          changeset: changes,
+          identifier: identifier
+        )
+      end
     end
 
     private
