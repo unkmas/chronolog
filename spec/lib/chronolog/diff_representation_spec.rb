@@ -94,5 +94,17 @@ RSpec.describe Chronolog::DiffRepresentation do
         )
       end
     end
+
+    context 'when date is blank' do
+      let!(:post) { create(:post, published_date: nil) }
+
+      it 'returns the appropriate set of attributes and values for use in a diff' do
+        expect(subject.attributes).to eq(
+          'title' => 'Such Post',
+          'body' => 'Oh wow such post body.',
+          'author' => post.user_id
+        )
+      end
+    end
   end
 end
